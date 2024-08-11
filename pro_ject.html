@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interactive Quiz</title>
+</head>
+<style>
+    body{
+        background-color: #F4F4F4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height:100vh;
+        margin: 0;
+    }
+    .quiz-container{
+        /* display:block; */
+        background-color:white;
+        /* margin:0 auto; */
+        padding:20px;
+        text-align: center;
+        width:100%;
+        max-width: 600px;  /* imp */
+        font-family:Arial, Helvetica, sans-serif;
+        border-radius: 10px;
+        box-shadow: 5px 3px 10px rgba(0,0,0,0.3);
+    }
+    .quiz-container h1,.question p{
+        margin-bottom: 20px;
+    }
+    button{
+        /* display: block; */
+        width:100%;
+        padding :10px;
+        border: 1px solid ;
+        border-radius: 6px;
+        color: white;
+        background:#63bd63;
+        font-size: 16px;
+        transition: all 200ms ease-in-out;
+    }
+    button:hover{
+        background-color:#4fb34f ;
+        cursor: pointer;
+          }
+</style>
+<body>
+    <div class="quiz-container">
+     <h1>Interactive Quiz</h1>
+     <div>
+        <p>Click the button to start the quiz!</p>
+     </div>
+    
+    <button onClick="start()" >Start Quiz</button>
+    </div>
+    <script>
+        let score=0;
+        let currentInd=0;
+        let questions=[{
+            que:"What is the Capital of France?",
+            ans:["Paris","London","Delhi"],
+            point:0},
+            {
+                que:"What is 2+2?",
+                ans:["3","4","5"],
+                point:1
+            },
+            {
+                que:"What is the largest planet of our solar system?",
+                ans:["Earth","Jupiter","Mars"],
+                point:1
+            }
+        ];
+        function start(){
+            if(currentInd<questions.length){
+                displayQ();
+            }
+            else{
+                alert("Quiz Completed! You scored "+score+"Out of "+questions.length);
+                reset();
+            }
+        }
+        
+            function displayQ() {
+                let queDat = questions[currentInd];
+                let buttonContainer = document.querySelector('.quiz-container');
+
+                buttonContainer.innerHTML = '<h1>Interactive Quiz</h1><div class="question"><p>' + queDat.que + '</p></div>';
+
+                for (let i = 0; i < queDat.ans.length; i++) {
+                    let ansBut = document.createElement("button");
+                    ansBut.textContent = queDat.ans[i];
+                    ansBut.addEventListener("click", function () { check(i); });
+                    buttonContainer.appendChild(ansBut);
+                };
+            }
+        
+        function check(i){
+            let queDat=questions[currentInd];
+            if(i===queDat.point){
+                score++;
+                alert("correct!");
+            }
+            else{
+                alert("Wrong answer! The correct answer is "+queDat.ans[queDat.point]+".");
+            }
+            currentInd++;
+            start();
+        }
+        function reset(){
+            score=0;
+            currentInd=0;
+            let buttonContainer = document.querySelector('.quiz-container');
+            buttonContainer.innerHTML = '<h1>Interactive Quiz</h1><div class="question"><p>Click the button to start the quiz!</p></div><button onclick="start()">Start Quiz</button>';
+
+        }
+        
+
+    </script>   
+</body>
+</html>
